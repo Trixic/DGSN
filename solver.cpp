@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define N 9 // raw count in the overdetermined matrix
+#define N 9 // row count in the overdetermined matrix
 #define M 4 // x y z coordinates and time
 
 int main()
@@ -29,8 +29,11 @@ int main()
     for (int i = 0; i < N + 1; i++)
     {
     	r[i] = sqrt(pow(x[i] - coord[0], 2) + pow(y[i] - coord[1], 2) + pow(z[i] - coord[2], 2));
-    }    
-
+    }  
+    
+    // linear system of equations are obtained with method described in
+    // http://www.diku.dk/~rfonseca/implementations/apollonius3d.pdf
+    
     for (int i = 0; i < N; i++)
     {
         a[i][0] = 2 * (x[i + 1] - x[0]);
@@ -52,6 +55,10 @@ int main()
         }
 
 
+    // at * a * sol = at * b
+    // P - extended matrix
+    // P = ( at * a | at * b ) 
+    
     for (int i = 0; i < M; i++)
         for (int j = 0; j < M; j++)
         {
